@@ -1,0 +1,27 @@
+---
+- name: Install python3-docker 
+  apt:
+    pkg:
+      - python3-docker
+
+- name: Docker nagios plugin
+  template: 
+    src: docker-nagios-swarm-manager.py.j2 
+    dest: /usr/lib/nagios/plugins/docker-nagios-swarm-manager.py
+    mode: 755
+
+- name: serveur autorisé
+  lineinfile:
+    dest: /etc/nagios/nrpe.d/commands.cfg
+    regexp: "docker_nagios"
+    line: "command[docker_nagios]=sudo /usr/lib/nagios/plugins/docker-nagios-swarm-manager.py"
+    state: present
+  notify: restart nrpe
+
+- name: serveur sudo
+  lineinfile:
+    dest: /etc/sudoers.d/nagios
+    regexp: "docker_nagios"
+    line: "nagios ALL = (root) NOPASSWD: /usr/lib/nagios/plugins/docker-nagios-swarm-manager.py"
+    state: present
+...
