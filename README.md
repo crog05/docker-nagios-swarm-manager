@@ -10,6 +10,6 @@ You need to install python3-docker
 ## Setup
 Script has to be installed on docker swarm managers nodes.
 ## Ansible
-Ansible folder contains a basic role to allow setup on a the swarm.
+Ansible folder contains a basic role to allow setup on a the swarm, nrpe setup.
 ## Notes
 Script is a basic start, needs to be improved, like error handling.
